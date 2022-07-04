@@ -4,13 +4,220 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  overflow-x: hidden;
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+  color: inherit ;
+  text-decoration: none!important;
 }
 
 * {
   box-sizing: border-box;
+}
+
+[class^=col]{
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px
+}
+
+[class^=col] > row > [class^=col]{
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+}
+
+.navLink{
+  padding-left: 20px;
+  text-align: right;
+  color: white;
+  font-size: medium;
+  text-decoration: none;
+}
+
+.navLink:hover{
+  font-weight: 700 !important;
+  color: white !important;
+  text-decoration: none !important;
+}
+
+.navLink.active{
+  font-weight: 800 !important;
+  color: white !important;
+  text-decoration: none !important;
+}
+
+.carousel-control-prev {
+  left: -70px !important;
+}
+
+.carousel-control-next {
+  right: -70px !important;
+}
+
+.carousel-indicators{
+  bottom: -35px !important;
+}
+
+
+.shadowInput{
+  box-shadow: 3px 2px gray !important;
+  border-radius: 0.45em !important;
+}
+
+.cardFooterPers{
+  border-top: none !important;
+}
+
+a.linkVideo{
+  color: red;
+  font-size: 12px;
+  text-decoration: none;
+}
+
+a.linkVideo:hover{
+  font-weight: 600;
+  text-decoration: none;
+  color: red;
+}
+
+a.linkQuest{
+  color: white;
+  font-size: 16px;
+  text-decoration: none;
+  margin-top: 10px;
+  padding: 15px;
+}
+
+a.linkQuest:hover{
+  color: white;
+  font-size: 17px;
+  text-decoration: none;
+}
+
+a.linkVideo:hover{
+  font-weight: 600;
+  text-decoration: none;
+  color: purple;
+}
+
+
+.formRegister{
+  background-color: #b9b6d3;
+  border-radius: 1.75em;
+  padding-right: 35px;
+  padding-bottom: 25px;
+}
+
+.formLogin{
+  background-color: #f6b9c1;
+  border-radius: 1.75em;
+  padding-right: 35px;
+  padding-bottom: 25px;
+}
+
+.formContact{
+  background-color: #b3cdda;
+  border-radius: 1.75em;
+  padding-right: 35px;
+  padding-bottom: 25px;
+}
+
+@media (max-width: 768px) {
+  #navBarHeader{
+    text-align: center;
+  }
+  .logo{
+    padding-left: 35% !important;
+  }
+
+  .formRegister{
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+
+  .formLogin{
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  .formContact{
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+
+  
+
+}
+
+
+@media (max-width: 576px) {
+  .logo{
+    padding-left: 30% !important;
+  }
+
+ 
+}
+
+.expertRed{
+  font-size: 40px;
+  color: #e73952 !important;
+  font-weight: 700;
+  text-decoration: none;
+  margin-bottom: 0;
+  margin-top: -10px;
+}
+
+.expertBlue{
+  font-size: 40px;
+  color: #297199 !important;
+  font-weight: 700;
+  text-decoration: none;
+  margin-bottom: 0;
+  margin-top: -10px;
+}
+
+.expertSpeci{
+  font-size: 14px;
+  color: #3a2e80!important;
+  text-decoration: none;
+  margin-top: 0;
+}
+
+.plyr--video{
+  height: 400px !important
+}
+
+.buttonTopic{
+  background-color: #df6339;
+  padding: 6px;
+  color: white;
+  border: 1px solid #df6339;
+  border-radius: 0.55em;
+  margin-top: 10px;
+}
+
+.toTopics{
+  color: #df6339;
+  font-size: 15px;
+  font-weight: 600;
+  padding-left: 12%;
+  text-decoration: none;
+}
+
+.toTopics:hover{
+  color: #df6339;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
