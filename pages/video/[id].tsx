@@ -13,7 +13,7 @@ export const VideoPage: NextPage = () => {
     let {getGlobalState} = useContext(GlobalContext);
     const router = useRouter();
     const { id } = router.query;
-    let idVideo = parseInt(id!!);
+    let idVideo = parseInt(id!!.toString());
     let apiTorak = new ApiTorak();
     const ref = useRef<APITypes>(null);
     let bandera = false;
@@ -83,7 +83,7 @@ export const VideoPage: NextPage = () => {
 
         if(id === undefined || idVideo === null){
             let {id} = router.query;
-            idVideo = parseInt(id!!);
+            idVideo = parseInt(id!!.toString());
             
         }
     });

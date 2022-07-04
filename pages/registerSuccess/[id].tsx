@@ -8,7 +8,7 @@ import ApiTorak from "../../helpers/ApiTorak/ApiTorak";
 export const SuccessPage: NextPage = () => {
     const router = useRouter();
     const { id } = router.query;
-    let idEstudent = parseInt(id!!);
+    let idEstudent = parseInt(id!!.toString());
     let apiTorak = new ApiTorak();
     let bandera = false;
     const [code, setCode] = React.useState(undefined);
@@ -43,7 +43,7 @@ export const SuccessPage: NextPage = () => {
     useEffect(() => {
         if(id === undefined || idEstudent === null){
             let {id} = router.query;
-            idEstudent = parseInt(id!!); 
+            idEstudent = parseInt(id!!.toString()); 
         }
     });
 

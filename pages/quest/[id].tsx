@@ -12,7 +12,7 @@ export const QuestPage:NextPage = () => {
     const router = useRouter();
     const {getGlobalState} = React.useContext(GlobalContext);
     const { id } = router.query;
-    let idEvaluation = parseInt(id!!);
+    let idEvaluation = parseInt(id!!.toString());
     let apiTorak = new ApiTorak();
     const [error, setError] = React.useState("");
     const [finished,setFinished] = React.useState(false);
