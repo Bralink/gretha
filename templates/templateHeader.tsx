@@ -1,6 +1,5 @@
 import { Col, Container, Nav, Navbar, Row } from "react-bootstrap";
 import Link from 'next/link'
-import Image from "next/image";
 import React, { useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
@@ -9,6 +8,7 @@ import useStorage from "../helpers/useStorage/useStorage";
 
 export const TemplateHeader = ({children} : any) => {
     const [activeNav, setActiveNav] = React.useState("Home");
+    const [isLogged, setIsLogged] = React.useState(false);
     let {getGlobalState} = useContext(GlobalContext);
     const router = useRouter();
 
@@ -17,8 +17,8 @@ export const TemplateHeader = ({children} : any) => {
                 case "/home":
                     setActiveNav("Home")
                     break;
-                case "/topics":
-                    setActiveNav("Topics")
+                case "/modulos":
+                    setActiveNav("Modulos")
                     break;
                 case "/experts":
                     setActiveNav("Experts")
@@ -32,6 +32,9 @@ export const TemplateHeader = ({children} : any) => {
                 case "/contact":
                     setActiveNav("Contact")
                     break;
+                case "/instructions":
+                    setActiveNav("Instructions")
+                    break;
             }
 
     }
@@ -39,6 +42,7 @@ export const TemplateHeader = ({children} : any) => {
     const logout = () => {
         let {removeItem} = useStorage();
         removeItem("globalState");
+        setIsLogged(false);
         router.push("/login");
     }
     
@@ -46,18 +50,18 @@ export const TemplateHeader = ({children} : any) => {
         setNav(router.pathname);
     }, [router.pathname]);
 
-    const isAuthenticated = () => {
-        let result = false;
-
+    useEffect(() => {
         if(getGlobalState().username !== "" && getGlobalState().username !== undefined){
-            result = true;
+            setIsLogged(true);
+        }else{
+            setIsLogged(false);
         }
-
-        return result;
-    }
-
+        
+        
+    }, [getGlobalState()])
    
     return(
+        <>
         <Container fluid style={{paddingBottom: '10px'}}>
             <Head>
                 <title>{activeNav}</title>
@@ -69,14 +73,37 @@ export const TemplateHeader = ({children} : any) => {
                 
             </Row>
             <Row style={{backgroundColor: 'white'}}>
-                <Col md={12}  className="logo" style={{paddingTop: '5px', paddingBottom: '5px'}}>
-                    <Image src={"/logo.png"} width={160} height={45} style={{padding: '10px'}} alt="logo"/>
+                <Col md={9}  className="logo" style={{paddingTop: '5px', paddingBottom: '5px'}}>
+                    <Link href="/home" >
+                        <a>
+                            <img src={"/images/logo_grehta.png"} width={160} height={60} style={{padding: '10px'}} alt="logo"/>
+                            <img src={"/images/logo.png"} width={160} height={60} style={{padding: '10px'}} alt="logo"/>
+                        </a>
+                    </Link>
+                    
                 </Col>
+                <Col md={3} style={{display: 'flex', alignContent: 'center'}}>
+                    {isLogged &&(
+                        
+                        <Link href="/modulos" >
+                            <a style={{color: '#2c62e9', fontSize: '16px', paddingTop: '20px'}}>Hola, {getGlobalState().name}</a>
+                        </Link>
+                        
+                    )}
+                </Col>
+               
             </Row>
             <Row style={{backgroundColor: '#e63a52'}}>
                 <Navbar expand="lg">
                     <Container>
-                    <Navbar.Toggle aria-controls="navBarHeader" />
+                        <Row>
+                            <Col md={12} sm={9} xs={9} style={{paddingTop: '5px'}}>
+                                <Navbar.Brand className="menuTitle" href="#"><b>HIPERTENSIÓN ARTERIAL</b> Diálogo con los expertos</Navbar.Brand>
+                            </Col>
+                            <Col className="toggleHeader" sm={3} xs={3}><Navbar.Toggle aria-controls="navBarHeader" /></Col>
+                        </Row>
+                    
+                    
                     <Navbar.Collapse id="navBarHeader" className="justify-content-end">
                         <Nav
                             activeKey="/home"
@@ -87,45 +114,39 @@ export const TemplateHeader = ({children} : any) => {
                                 </Link>
                             </Nav.Item>
                             <Nav.Item>
-                                <Link href="/topics" >
-                                    <a className={`navLink ${activeNav === "Topics" ? 'active' : ''}`}>Tópicos</a>
+                                <Link href="/modulos" >
+                                    <a className={`navLink ${activeNav === "Modulos" ? 'active' : ''}`}>Módulos</a>
                                 </Link>
                             </Nav.Item>
                             <Nav.Item>
                                 <Link href="/experts" >
-                                    <a className={`navLink ${activeNav === "Experts" ? 'active' : ''}`}>Expertos GRETHA</a>
+                                    <a className={`navLink ${activeNav === "Experts" ? 'active' : ''}`}>Expertos GREHTA</a>
                                 </Link>
                             </Nav.Item>
-                            {isAuthenticated() &&(
-                                <Nav.Item>
-                                    <Link href="/topics" >
-                                        <a className={`navLink`}>Hola, {getGlobalState().username}</a>
-                                    </Link>
-                                </Nav.Item>
-                            )}
-                            {!isAuthenticated() &&(
+                            
+                            {!isLogged &&(
                                 <Nav.Item>
                                     <Link href="/register">
                                         <a className={`navLink ${activeNav === "Register" ? 'active' : ''}`}>Registro</a>
                                     </Link>
                                 </Nav.Item>
                             )}
-                            {!isAuthenticated() &&(
+                            {!isLogged &&(
                                 <Nav.Item>
                                     <Link href="/login" >
-                                        <a className={`navLink ${activeNav === "Login" ? 'active' : ''}`}>Inicio de Sesión</a>
+                                        <a className={`navLink ${activeNav === "Login" ? 'active' : ''}`}>Inicio de sesión</a>
                                     </Link>
                                 </Nav.Item>
                             )}
-                            {isAuthenticated() &&(
+                            {isLogged &&(
                                 <Nav.Item>
-                                    <a onClick={logout} className={`navLink`}>Cerrar Session</a>
+                                    <a onClick={() => logout()} className={`navLink`}>Cerrar sesión</a>
                                 </Nav.Item>
                             )}
                             
                             <Nav.Item>
                                 <Link href="/contact">
-                                    <a className={`navLink ${activeNav === "Contact" ? 'active' : ''}`}>Contacto</a>
+                                    <a className={`navLink ${activeNav === "Contact" ? 'active' : ''}`}>Cont&aacute;ctenos</a>
                                 </Link>
                             </Nav.Item>
                         </Nav>
@@ -133,10 +154,13 @@ export const TemplateHeader = ({children} : any) => {
                     </Container>
                 </Navbar>
             </Row>
-            <Row style={{paddingTop: '20px'}}>
+        </Container>
+        <Container>
+            <Row style={{paddingTop: '15px'}}>
                 {children}
             </Row>
         </Container>
+        </>
     )
 }
 export default TemplateHeader;

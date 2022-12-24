@@ -12,8 +12,8 @@ const nextConfig = {
   },
   images: {
     domains: ['localhost'],
-  }
-  
+  },
+  trailingSlash: true
 }
 
 module.exports = nextConfig

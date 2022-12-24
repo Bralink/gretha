@@ -7,14 +7,17 @@ export default class Video{
     public date: string = "";
     public evaluation_id : number = 0;
     public sections: Array<SectionVideo> = [];
-    public is_user_answered: 1 | 0 = 0;
+    public modulo: string = "";
+    public part: number = 0;
+    public is_answered: 0 | 1 | 2 |3 = 0;
 } 
 
 export class SectionVideo{ 
     public id: number = 0;
     public topic: string = "";
     public video: number = 0;
-    public start: number = 0; 
+    public minute: number = 0; 
+    public second: number = 0;
 }
 
 export class UserSeen{

@@ -5,4 +5,5 @@ export default class Expert{
     public url_image: string = "";
     public speciality: string = "";
     public url_profile: string = "";
+    public body: string = "";
 }

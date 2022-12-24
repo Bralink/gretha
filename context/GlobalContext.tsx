@@ -9,6 +9,7 @@ export const GlobalContext = createContext( {} as IGlobalProps);
 export const GlobalInitialState: IGlobalState = {
     token: "",
     username: "",
+    name: "",
     permissions: [],
 }
 
@@ -43,6 +44,7 @@ export const GlobalProvider = ({children} : any) => {
         let objectSession: any = {
             token: "",
             username: "",
+            name: "",
             role: "",
             permissions: []
         };
