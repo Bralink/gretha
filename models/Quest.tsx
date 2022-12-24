@@ -3,6 +3,7 @@ export default class Quest{
     public name: string = "";
     public questions: number = 0;  
     public user_answers: number = 0;
+    public is_answered: 0 | 1 | 2 | 3 = 0;
     public created:  Date = new Date();
     public modified: Date = new Date();  
     public published: number = 0;

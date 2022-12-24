@@ -6,6 +6,7 @@ import ApiTorak from "../helpers/ApiTorak/ApiTorak";
 import { useRouter } from "next/router";
 import { GlobalContext } from "../context/GlobalContext";
 import { IGlobalState } from "../interfaces/context/IGlobalState";
+import Link from "next/link";
 
 export const Login = () => {
     let router = useRouter();
@@ -51,6 +52,7 @@ export const Login = () => {
             }
         });
     }
+
     return(
         <><Container fluid style={{ paddingBottom: '0px' }}>
             <Row>
@@ -61,7 +63,7 @@ export const Login = () => {
                         <Form noValidate validated={formValidatedLogin} onSubmit={validateFormLogin}>
                             <Row>
                                 <Col md={12}>
-                                    <p style={{ textAlign: 'center', paddingTop: '20px',paddingBottom: '15px',color:'#383086', fontSize: '17px' }}> <b>Inicio de sesión:</b></p>
+                                    <p style={{ textAlign: 'center', paddingTop: '20px',paddingBottom: '15px',color:'#383086', fontSize: '17px' }}> <b>Inicio de sesión</b></p>
                                 </Col>
                             </Row>
                             <Row>
@@ -123,10 +125,10 @@ export const Login = () => {
                                     <Button type="submit">Entrar</Button>
                                 </Col>
                                 <Col md={3}></Col>
-                                <Col md={12}>
-                                    <span>
-                                        <p style={{ textAlign: 'center',color:'#7B68EE' }}>¿Olvidaste tu contraseña?</p>
-                                    </span>
+                                <Col md={12} style={{textAlign: 'center'}}>
+                                    <Link href="/recoveryPassword">
+                                        <a style={{ textAlign: 'center',color:'#7B68EE' }} href="">¿Olvidaste tu contraseña?</a>
+                                    </Link>
                                 </Col>
                             </Row>
                         </Form>

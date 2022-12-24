@@ -8,24 +8,23 @@ import Quest, { Answer, Question, UserAnswer } from "../../models/Quest";
 import { GlobalContext } from "../../context/GlobalContext";
 import Link from "next/link";
 
-export const QuestPage:NextPage = () => {
+export const QuestPage:NextPage = ({id}:any) => {
     const router = useRouter();
     const {getGlobalState} = React.useContext(GlobalContext);
-    const { id } = router.query;
-    let idEvaluation = parseInt(id!!.toString());
     let apiTorak = new ApiTorak();
     const [error, setError] = React.useState("");
     const [finished,setFinished] = React.useState(false);
     const [dataQuest, setDataQuest] = React.useState<Quest>(new Quest());
     const [currentQuestion, setCurrentQuestion] = React.useState<Question>(new Question());
-    const [countQuestion,setCountQuestion] = React.useState(0);
+    const [countQuestion,setCountQuestion] = React.useState(1);
     const [answer, setAnswer] = React.useState<UserAnswer>(new UserAnswer());
+    const [results,setResults] = React.useState<{questions: number, answers: number}>({questions: 0, answers: 0});
 
     const getData = async() =>{
         if(getGlobalState().username === ""){
             router.push("/login");
         }else{
-            await apiTorak.sendData("evaluation", "getCompleteQuest", {idEvaluation: idEvaluation}).then((response : any) => {
+            await apiTorak.sendData("evaluation", "getCompleteQuest", {idEvaluation: id}).then((response : any) => {
                 if(response.status){
                     setDataQuest(response.data);
                 }else{
@@ -39,10 +38,11 @@ export const QuestPage:NextPage = () => {
     }
 
     const nextQuestion = async() => {
-        if(countQuestion < dataQuest.questions && dataQuest.user_answers < dataQuest.questions){
-            await apiTorak.sendData("evaluation", "getQuestion", {idEvaluation: idEvaluation}).then((response : any) => {
+        if(countQuestion <= dataQuest.questions && dataQuest.user_answers <= dataQuest.questions){
+            await apiTorak.sendData("evaluation", "getQuestion", {idEvaluation: id}).then((response : any) => {
                 if(response.status){
                     setCurrentQuestion(response.data);
+                    setCountQuestion(response.data.user_answers + 1);
                 }else{
                     if(response.error === -1){
                         router.push("/login");
@@ -57,19 +57,17 @@ export const QuestPage:NextPage = () => {
         
     }
 
-    useEffect(() => {
-        if(dataQuest.id !== idEvaluation){
-            getData();
-        }
-    });
+    const getResults = async() =>{
+       
+        await apiTorak.sendData("evaluation", "getResults", {idEvaluation: id}).then((response : any) => {
+            if(response.status){
+                setResults({questions: response.data.questions, answers: response.data.corrects});
+            }
+        });
+    }
 
-    useEffect(() => {
-        nextQuestion();
-    }, [dataQuest]);
+    
 
-    useEffect(() => {
-        setCountQuestion(dataQuest.user_answers + 1);
-    }, [dataQuest.user_answers]);
     const setAnwser = (evaluation: number,question: number, answer: number, answer_text: string) => {
         setAnswer({
             evaluation: evaluation,
@@ -86,6 +84,7 @@ export const QuestPage:NextPage = () => {
             await apiTorak.sendData("evaluation", "saveAnswer", answer).then((response : any) => {
                 if(response.status){
                     nextQuestion();
+                    setCountQuestion(response.data.total);
                 }
             });
         }else{
@@ -100,9 +99,27 @@ export const QuestPage:NextPage = () => {
         await apiTorak.sendData("evaluation", "finishQuest", answer).then((response : any) => {
             if(response.status){
                 setFinished(true);
+                getResults();
             }
         });
     }
+
+    useEffect(() => {
+        if(id > 0 && dataQuest.id === 0){
+            getData();
+        }
+    },[]);
+
+    useEffect(() => {
+        nextQuestion();
+    }, [dataQuest]);
+
+    useEffect(() => {
+        if((currentQuestion.id === null && dataQuest.is_answered === 3)){
+            setFinished(true);
+            getResults();
+        }
+    },[currentQuestion]);
 
     return(
         <Container>
@@ -112,7 +129,7 @@ export const QuestPage:NextPage = () => {
                     <Col md={10} style={{border: '1px solid lightgray', borderRadius: '1.75em', padding: '20px'}}>
                         <Row>
                             <Col md={3}><p style={{fontSize: '11px', color: 'gray'}}><b>Pregunta {countQuestion} de {dataQuest.questions}</b></p></Col>
-                            <Col md={6}></Col>
+                            <Col md={6} style={{textAlign: 'center', fontSize: '14px', color: 'gray'}}> Intento {dataQuest.is_answered + 1}</Col>
                             <Col md={3}><p style={{fontSize: '14px',textAlign: 'right', color: '#027ab8'}}><b>{dataQuest.name}</b></p></Col>
                         </Row>
                         <Row>
@@ -172,6 +189,12 @@ export const QuestPage:NextPage = () => {
                             <p style={{color: '#e63a52', textAlign: 'center'}}>
                                 ¡Has Finalizado el cuestionario correctamente!
                             </p>
+                            <p style={{color: '#11426a', textAlign: 'center', fontSize: '17px'}}>
+                                Tu Puntaje es: 
+                            </p>
+                            <p style={{color: '#11426a', textAlign: 'center', fontSize: '17px', fontWeight: 'bold'}}>
+                                {results.answers} correctas de {results.questions} preguntas
+                            </p>
                             <p style={{color: '#e63a52',textAlign: 'center'}}>
                                 Puedes regresar a tópicos y revisar si hay mas cuestionarios disponibles
                             </p>
@@ -196,3 +219,32 @@ export const QuestPage:NextPage = () => {
 }
 
 export default QuestPage;
+
+export async function getStaticPaths() {
+
+    let apiTorak = new ApiTorak();
+    let result: any[] = [];
+
+    apiTorak.module = "/services";
+    await apiTorak.getJSON("Evaluation", "GetIdsQuest", []).then((response: any) => {
+        result = response.data;
+    });
+
+   
+    return {
+      paths: result.map((post:any) => {
+        return {
+          params: {
+            id: `${post.id}`,
+          },
+        }
+      }),
+      fallback: false,
+    }
+  }
+
+  export async function getStaticProps({ params }: any) {
+    return {
+      props: params,
+    }
+  }

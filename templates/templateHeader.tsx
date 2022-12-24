@@ -1,6 +1,5 @@
 import { Col, Container, Nav, Navbar, Row } from "react-bootstrap";
 import Link from 'next/link'
-import Image from "next/image";
 import React, { useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
@@ -58,6 +57,7 @@ export const TemplateHeader = ({children} : any) => {
 
    
     return(
+        <>
         <Container fluid style={{paddingBottom: '10px'}}>
             <Head>
                 <title>{activeNav}</title>
@@ -69,13 +69,27 @@ export const TemplateHeader = ({children} : any) => {
                 
             </Row>
             <Row style={{backgroundColor: 'white'}}>
-                <Col md={12}  className="logo" style={{paddingTop: '5px', paddingBottom: '5px'}}>
-                    <Image src={"/logo.png"} width={160} height={45} style={{padding: '10px'}} alt="logo"/>
+                <Col md={10}  className="logo" style={{paddingTop: '5px', paddingBottom: '5px'}}>
+                    <Link href="/home" >
+                        <a><img src={"/images/logo.png"} width={160} height={60} style={{padding: '10px'}} alt="logo"/></a>
+                    </Link>
+                    
                 </Col>
+                <Col md={2} style={{display: 'flex', alignContent: 'center'}}>
+                    {isAuthenticated() &&(
+                        
+                        <Link href="/topics" >
+                            <a style={{color: '#2c62e9', fontSize: '16px', paddingTop: '20px'}}>Hola, {getGlobalState().username}</a>
+                        </Link>
+                        
+                    )}
+                </Col>
+               
             </Row>
             <Row style={{backgroundColor: '#e63a52'}}>
                 <Navbar expand="lg">
                     <Container>
+                    <Navbar.Brand className="menuTitle" href="#">Menú</Navbar.Brand>
                     <Navbar.Toggle aria-controls="navBarHeader" />
                     <Navbar.Collapse id="navBarHeader" className="justify-content-end">
                         <Nav
@@ -88,21 +102,15 @@ export const TemplateHeader = ({children} : any) => {
                             </Nav.Item>
                             <Nav.Item>
                                 <Link href="/topics" >
-                                    <a className={`navLink ${activeNav === "Topics" ? 'active' : ''}`}>Tópicos</a>
+                                    <a className={`navLink ${activeNav === "Topics" ? 'active' : ''}`}>Módulos</a>
                                 </Link>
                             </Nav.Item>
                             <Nav.Item>
                                 <Link href="/experts" >
-                                    <a className={`navLink ${activeNav === "Experts" ? 'active' : ''}`}>Expertos GRETHA</a>
+                                    <a className={`navLink ${activeNav === "Experts" ? 'active' : ''}`}>Expertos GREHTA</a>
                                 </Link>
                             </Nav.Item>
-                            {isAuthenticated() &&(
-                                <Nav.Item>
-                                    <Link href="/topics" >
-                                        <a className={`navLink`}>Hola, {getGlobalState().username}</a>
-                                    </Link>
-                                </Nav.Item>
-                            )}
+                            
                             {!isAuthenticated() &&(
                                 <Nav.Item>
                                     <Link href="/register">
@@ -113,7 +121,7 @@ export const TemplateHeader = ({children} : any) => {
                             {!isAuthenticated() &&(
                                 <Nav.Item>
                                     <Link href="/login" >
-                                        <a className={`navLink ${activeNav === "Login" ? 'active' : ''}`}>Inicio de Sesión</a>
+                                        <a className={`navLink ${activeNav === "Login" ? 'active' : ''}`}>Inicio de sesión</a>
                                     </Link>
                                 </Nav.Item>
                             )}
@@ -133,10 +141,13 @@ export const TemplateHeader = ({children} : any) => {
                     </Container>
                 </Navbar>
             </Row>
-            <Row style={{paddingTop: '20px'}}>
+        </Container>
+        <Container>
+            <Row style={{paddingTop: '15px'}}>
                 {children}
             </Row>
         </Container>
+        </>
     )
 }
 export default TemplateHeader;

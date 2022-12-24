@@ -48,7 +48,7 @@ export const Register = () =>{
                             <Row>
                                 <Col md={12}>
                                     <p style={{textAlign: 'center', paddingBottom: '5px', paddingTop: '20px',color:'white'}}>Registrarse es muy sencillo con un correo electrónico podrá hacerlo</p>
-                                    <p style={{textAlign: 'center', paddingBottom: '10px',color:'white'}}> <b>IMPORTANTE:</b>con los datos proporcionados se elaborará una constancia, porfavor verifíquelos</p>
+                                    <p style={{textAlign: 'center', paddingBottom: '10px',color:'white'}}> <b>IMPORTANTE: </b>con los datos proporcionados se elaborará una constancia. Por favor,verifique la información.</p>
                                 </Col>
                             </Row>
                             <Row md={1} xs={1} lg={1}>
@@ -73,6 +73,9 @@ export const Register = () =>{
                                                         setFormValidateRegister(false);
                                                     }} 
                                                     required/>
+                                                <Form.Control.Feedback type="invalid">
+                                                    Por favor, ingresa un correo válido.
+                                                </Form.Control.Feedback>
                                             </Col>
                                         </Row>
                                     </Form.Group>
@@ -87,7 +90,7 @@ export const Register = () =>{
                                                 <Form.Control 
                                                     type="password"
                                                     className="shadowInput"
-                                                    placeholder="password"
+                                                    placeholder="Contraseña"
                                                     value={dataRegister.password} 
                                                     onChange={ (event: any) => {
                                                         setDataRegister({
@@ -97,6 +100,9 @@ export const Register = () =>{
                                                         setFormValidateRegister(false);
                                                     }} 
                                                     required/>
+                                                <Form.Control.Feedback type="invalid">
+                                                    Por favor, ingresa una contraseña.
+                                                </Form.Control.Feedback>
                                             </Col>
                                         </Row>
                                     </Form.Group>
@@ -121,6 +127,9 @@ export const Register = () =>{
                                                         setFormValidateRegister(false);
                                                     }}
                                                     required/>
+                                                <Form.Control.Feedback type="invalid">
+                                                    Por favor, ingresa tu nombre.
+                                                </Form.Control.Feedback>
                                             </Col>
                                         </Row>
                                     </Form.Group>
@@ -134,7 +143,7 @@ export const Register = () =>{
                                             <Col md={9}>
                                                 <Form.Control 
                                                     type="text"
-                                                    placeholder="cedula profesional"
+                                                    placeholder="Cédula profesional"
                                                     className="shadowInput"
                                                     value={dataRegister.license} 
                                                     onChange={ (event: any) => {
@@ -145,6 +154,9 @@ export const Register = () =>{
                                                         setFormValidateRegister(false);
                                                     }}
                                                     required/>
+                                                <Form.Control.Feedback type="invalid">
+                                                    Por favor, ingresa tu cédula profesional.
+                                                </Form.Control.Feedback>
                                             </Col>
                                         </Row>
                                     </Form.Group>
@@ -157,19 +169,50 @@ export const Register = () =>{
                                                 <Form.Label>Estado*</Form.Label>
                                             </Col>
                                             <Col md={9}>
-                                                <Form.Control 
-                                                    type="text"
-                                                    placeholder="CDMX"
-                                                    className="shadowInput"
-                                                    value={dataRegister.state} 
-                                                    onChange={ (event: any) => {
+                                                <Form.Select
+                                                    className="selectForm"
+                                                    size="lg"
+                                                    value={dataRegister.state}
+                                                    onChange={(e:any) =>{
                                                         setDataRegister({
                                                             ...dataRegister,
-                                                            state: event.target.value
+                                                            state: e.target.value
                                                         });
-                                                        setFormValidateRegister(false);
-                                                    }}
-                                                    required/>
+                                                    }}>
+                                                    <option>Aguascalientes</option>
+                                                    <option>Baja California</option>
+                                                    <option>Baja California Sur </option>
+                                                    <option>Campeche</option>
+                                                    <option>Chiapas</option>
+                                                    <option>Chihuahua</option>
+                                                    <option>Ciudad de México</option>
+                                                    <option>Coahuila</option>
+                                                    <option>Colima</option>
+                                                    <option>Durango</option>
+                                                    <option>Estado de México</option>
+                                                    <option>Guanajuato</option>
+                                                    <option>Guerrero</option>
+                                                    <option>Hidalgo</option>
+                                                    <option>Jalisco</option>
+                                                    <option>Michoacán</option>
+                                                    <option>Morelos</option>
+                                                    <option>Nayarit</option>
+                                                    <option>Nuevo León</option>
+                                                    <option>Oaxaca</option>
+                                                    <option>Puebla</option>
+                                                    <option>Querétaro</option>
+                                                    <option>Quintana Roo</option>
+                                                    <option>San Luis Potosí</option>
+                                                    <option>Sinaloa</option>
+                                                    <option>Sonora</option>
+                                                    <option>Tabasco</option>
+                                                    <option>Tamaulipas</option>
+                                                    <option>Tlaxcala</option>
+                                                    <option>Veracruz</option>
+                                                    <option>Yucatán</option>
+                                                    <option>Zacatecas</option>
+                                                </Form.Select>
+
                                             </Col>
                                         </Row>
                                     </Form.Group>
@@ -194,6 +237,9 @@ export const Register = () =>{
                                                         setFormValidateRegister(false);
                                                     }}
                                                     required/>
+                                                <Form.Control.Feedback type="invalid">
+                                                    Por favor, ingresa tu insititución.
+                                                </Form.Control.Feedback>
                                             </Col>
                                         </Row>
                                     </Form.Group>
